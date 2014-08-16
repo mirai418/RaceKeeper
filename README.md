@@ -5,7 +5,7 @@ Aggregates runs of #ECEBROS and creates a leader board in real time.
 ---
 ##Endpoints:
 
-###`getRunsForRaceId`
+`getRunsForRaceId`
 
 Request Parameters:
 * Race ID
