@@ -8,7 +8,7 @@ Aggregates runs of #ECEBROS and creates a leader board in real time.
 `/getRunsForRaceId` (NYI)
 
 Request Parameters:
-* `raceID`
+* `racegroup_id`
 
 Response:
 ```
