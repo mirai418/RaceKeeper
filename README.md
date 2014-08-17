@@ -1,41 +1,40 @@
 RaceKeeper by #ECEBROS
 ========================
 
-End Points:
-
-- /races returns all races in db.
-- /raec/:id returns the race with id
-
-each race should be have at least the following attirbutes:
-id
-username (foreign key to owner of race)
-run_time (a date-time in whatever format JSON is in)
-distance (idk pick a unit. integer perferred, so maybe meters?)
-
-e.g.
-{
-  "id": 1,
-  "username": "mirai418",
-  date: "2014-08-16T17:10:48.858Z",
-  distance: 4820
-}
-
 Aggregates runs of #ECEBROS and creates a leader board in real time.
 
 ---
 ##Endpoints:
 
-`/getRunsForRaceId` (NYI)
+`/races` (NYI) -- Returns all races
+`/races/:racegroup_id` -- Returns race with ID `racegroup_id`
 
-Request Parameters:
-* `racegroup_id`
+Response:
+```
+{
+    'Races': [
+                {
+                    'racegroup_id': <int>,
+                    'username': <string>,
+                    'members': [<string>, ...],
+                    'start_date': <string>,
+                    'end_date': <string>,
+                    'race_name': <string>,
+                    'activity_type': <string>, # Running, Swimming, Hiking
+                },
+                ...
+            ]
+}
+```
+
+`/runs/:racegroup_id` (NYI) -- Returns all runs relevant to race `racegroup_id`
 
 Response:
 ```
 {
     'makagawa': [
                     {
-                        'distance': <int>,
+                        'distance': <int>, # in meters
                         'start_time': <string>,
                         'end_time': <string>
                     }, ...
