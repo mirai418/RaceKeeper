@@ -16,3 +16,11 @@ angular.module('raceKeeperApp', ["ngRoute"])
   })
 
 }])
+
+.run([ "$window", "$rootScope", function ($window, $rootScope) {
+
+  angular.element($window).bind("resize", function (event) {
+    $rootScope.$apply();
+  });
+
+}])

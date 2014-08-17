@@ -4,4 +4,6 @@ angular.module("raceKeeperApp")
 
   console.log("HomeCtrl");
 
+  $scope.races = []
+
 }])
