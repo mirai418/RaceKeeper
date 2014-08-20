@@ -7,14 +7,15 @@ Aggregates runs of #ECEBROS and creates a leader board in real time.
 ##Endpoints:
 
 `/races` (NYI) -- Returns all races
-`/races/:racegroup_id` -- Returns race with ID `racegroup_id`
+
+`/races/:race_id` -- Returns race with ID `race_id`
 
 Response:
 ```
 {
     'Races': [
                 {
-                    'racegroup_id': <int>,
+                    'race_id': <int>,
                     'username': <string>,
                     'members': [<string>, ...],
                     'start_date': <string>,
@@ -27,7 +28,7 @@ Response:
 }
 ```
 
-`/runs/:racegroup_id` (NYI) -- Returns all runs relevant to race `racegroup_id`
+`/runs/:race_id` (NYI) -- Returns all runs relevant to race `race_id`
 
 Response:
 ```
@@ -54,10 +55,10 @@ Request Parameters:
 * `race_name`
 
 Response:
-* `racegroup_id`
+* `race_id`
 
 `/addMemberToRaceGroup` (NYI)
 
 Request Parameters:
-* `member_id`
-* `racegroup_id`
+* `member_id` -- Runkeeper ID or OAuth token of that member
+* `race_id`
