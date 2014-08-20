@@ -46,7 +46,7 @@ Response:
 ```
 
 
-`/addRaceGroup` (NYI)
+`/addRaceGroup`
 
 Request Parameters:
 * `start_date`
