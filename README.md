@@ -6,7 +6,7 @@ Aggregates runs of #ECEBROS and creates a leader board in real time.
 ---
 ##Endpoints:
 
-`/races` (NYI) -- Returns all races
+`/races` -- Returns all races
 
 `/races/:race_id` -- Returns race with ID `race_id`
 

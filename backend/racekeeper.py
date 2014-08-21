@@ -14,9 +14,9 @@ AUTH_URI = "https://runkeeper.com/apps/authorize"
 TOKEN_URI = "https://runkeeper.com/apps/token"
 OAUTH_FILE = 'oauth_tokens.txt'
 RACE_TO_MEMBER_FILE = 'race_to_member.txt' # Stores association between races and members
-RUNS_FILE = 'runs.txt' # Stores runs of each member in members file
-RACES_FILE = 'races.txt'
-RACES_CNT_FILE = 'races_count.txt'
+RACES_FILE = 'races.txt' # Stores data about races
+RACES_CNT_FILE = 'races_count.txt' # Counter for current number of races
+RUNS_DIR = 'runs/'
 ACCESS_TOKEN = None
 
 @app.route("/")
@@ -94,10 +94,14 @@ def getToken():
 
 @app.route("/races/")
 def getAllRaces():
-    if ACCESS_TOKEN is None:
-        f = open(OAUTH_FILE, 'r')
-        ACCESS_TOKEN = f.readline()
-    return "Placeholder"
+    try:
+        race = findRaceFromFile()
+        if race is None:
+            return "No race found.\n"
+        else:
+            return json.dumps(race)
+    except Exception as e:
+        return str(e)
 
 @app.route("/races/<race_id>")
 def getSpecificRace(race_id):
@@ -137,20 +141,38 @@ def saveRaceToFile(race_id, race_name, start_date, end_date, activity_type):
     races_file.write(datum)
     races_file.close()
 
-def findRaceFromFile(race_id):
+def findRaceFromFile(race_id=None):
     races_file = open(RACES_FILE, 'r')
-    for line in races_file:
-        line_arr = line.split(':')
-        if line_arr[0] == race_id:
-            result = dict()
-            result['race_id'] = line_arr[0]
+    if race_id is not None:
+        for line in races_file:
+            line_arr = line.split(':')
+            if line_arr[0] == race_id:
+                result = dict()
+                result['race_id'] = line_arr[0]
+                attributes = line_arr[1]
+                attributes_arr = attributes.split(',')
+                result['race_name'] = attributes_arr[0]
+                result['start_date'] = attributes_arr[1]
+                result['end_date'] = attributes_arr[2]
+                result['activity_type'] = attributes_arr[3].rstrip('\n')
+                return result
+    else:
+        result = dict()
+        races = list()
+        for line in races_file:
+            race = dict()
+            line_arr = line.split(':')
+            race['race_id'] = line_arr[0]
             attributes = line_arr[1]
             attributes_arr = attributes.split(',')
-            result['race_name'] = attributes_arr[0]
-            result['start_date'] = attributes_arr[1]
-            result['end_date'] = attributes_arr[2]
-            result['activity_type'] = attributes_arr[3].rstrip('\n')
-            return result
+            race['race_name'] = attributes_arr[0]
+            race['start_date'] = attributes_arr[1]
+            race['end_date'] = attributes_arr[2]
+            race['activity_type'] = attributes_arr[3].rstrip('\n')
+            races.append(race)
+        result['races'] = races
+        return result
+
     return None
 
 class OAuth():
