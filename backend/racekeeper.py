@@ -8,16 +8,22 @@ import requests, json
 
 app = Flask(__name__)
 
+TEST = True
 CLIENT_ID = "609fbfd328a84f4e9773adfb8cf9f824"
 CLIENT_SECRET = "cf21c82d44d741a5ab42356f0a8e4326"
 AUTH_URI = "https://runkeeper.com/apps/authorize"
 TOKEN_URI = "https://runkeeper.com/apps/token"
+HOST_URL = "http://api.runkeeper.com"
 OAUTH_FILE = 'oauth_tokens.txt'
 RACE_TO_MEMBER_FILE = 'race_to_member.txt' # Stores association between races and members
 RACES_FILE = 'races.txt' # Stores data about races
 RACES_CNT_FILE = 'races_count.txt' # Counter for current number of races
 RUNS_DIR = 'runs/'
-ACCESS_TOKEN = None
+
+if TEST:
+    ACCESS_TOKEN = open('sample_oauth').read()
+else:
+    ACCESS_TOKEN = None
 
 @app.route("/")
 def hello():
@@ -115,11 +121,36 @@ def getSpecificRace(race_id):
     except Exception as e:
         return str(e)
 
-@app.route("/runs/<int:race_id>")
+@app.route("/runs/<race_id>")
 def getRunsForRace(race_id):
-    return "Placeholder"
+    race = findRaceFromFile(race_id)
+    start_date = race['start_date']
+    end_date = race['end_date']
+    if race is None:
+        return "Race not found."
+    members = getMembersOfRace(race_id)
+    result = dict()
+    for member in members:
+        result['member'] = getActivities(member, start_date, end_date)
+    return json.loads(result)
+
+def getActivities(access_token, start_date, end_date):
+    global HOST_URL
+    url = "%s/fitnessActivities?access_token=%s&pageSize=100&noEarlierThan=%s&noLaterThan=%s" % (HOST_URL, access_token, start_date, end_date)
+    response = requests.get(url)
+    return response.json()['items']
 
 # Helper methods
+
+def getMembersOfRace(race_id):
+    result = list()
+    race_to_member_file = open(RACE_TO_MEMBER_FILE, 'r')
+    for line in race_to_member_file:
+        line_arr = line.split(':')
+        if line_arr[0] == race_id:
+            result.append(line_arr[1].rstrip('\n'))
+    race_to_member_file.close()
+    return result
 
 def getAndUpdateRaceId():
     races_cnt_file = open(RACES_CNT_FILE, 'r+')
@@ -155,6 +186,7 @@ def findRaceFromFile(race_id=None):
                 result['start_date'] = attributes_arr[1]
                 result['end_date'] = attributes_arr[2]
                 result['activity_type'] = attributes_arr[3].rstrip('\n')
+                races_file.close()
                 return result
     else:
         result = dict()
@@ -171,8 +203,10 @@ def findRaceFromFile(race_id=None):
             race['activity_type'] = attributes_arr[3].rstrip('\n')
             races.append(race)
         result['races'] = races
+        races_file.close()
         return result
 
+    races_file.close()
     return None
 
 class OAuth():

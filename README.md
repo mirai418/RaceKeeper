@@ -28,7 +28,7 @@ Response:
 }
 ```
 
-`/runs/:race_id` (NYI) -- Returns all runs relevant to race `race_id`
+`/runs/:race_id` -- Returns all runs relevant to race `race_id`
 
 Response:
 ```
@@ -57,7 +57,7 @@ Request Parameters:
 Response:
 * `race_id`
 
-`/addMemberToRaceGroup` (NYI)
+`/addMemberToRaceGroup`
 
 Request Parameters:
 * `member_id` -- Runkeeper ID or OAuth token of that member
