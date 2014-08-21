@@ -13,8 +13,9 @@ CLIENT_SECRET = "cf21c82d44d741a5ab42356f0a8e4326"
 AUTH_URI = "https://runkeeper.com/apps/authorize"
 TOKEN_URI = "https://runkeeper.com/apps/token"
 OAUTH_FILE = 'oauth_tokens.txt'
+RACE_TO_MEMBER_FILE = 'race_to_member.txt' # Stores association between races and members
+RUNS_FILE = 'runs.txt' # Stores runs of each member in members file
 RACES_FILE = 'races.txt'
-RUNS_FILE = 'runs.txt'
 RACES_CNT_FILE = 'races_count.txt'
 ACCESS_TOKEN = None
 
@@ -42,9 +43,9 @@ def addMemberToRaceGroup():
             member_id = request_data['member_id']
             race_id = request_data['race_id']
             datum = "%s:%s\n" % (race_id, member_id)
-            races_file = open(RACES_FILE, 'a')
-            races_file.write(datum)
-            races_file.close()
+            race_to_member_file = open(RACE_TO_MEMBER_FILE, 'a')
+            race_to_member_file.write(datum)
+            race_to_member_file.close()
             return "Added member %s to race %s" % (member_id, race_id)
         else:
             return "Must send POST\n"
@@ -61,19 +62,9 @@ def addRaceGroup():
             end_date = request_data['end_date']
             activity_type = request_data['activity_type']
             race_name = request_data['race_name']
-
-            races_cnt_file = open(RACES_CNT_FILE, 'r+')
-            race_cnt = races_cnt_file.read()
-            print race_cnt
-            if race_cnt is None or len(race_cnt) == 0:
-                race_id = 1
-            else:
-                race_id = int(race_cnt) + 1
-            print race_id
-            races_cnt_file.write(race_id)
-            races_cnt_file.close()
-
-            return race_id
+            race_id = getAndUpdateRaceId()
+            saveRaceToFile(str(race_id), race_name, start_date, end_date, activity_type)
+            return str(race_id)
         else:
             return "Must send POST\n"
     except Exception as e:
@@ -108,13 +99,59 @@ def getAllRaces():
         ACCESS_TOKEN = f.readline()
     return "Placeholder"
 
-@app.route("/races/<int:race_id>")
+@app.route("/races/<race_id>")
 def getSpecificRace(race_id):
-    return "Placeholder"
+    try:
+        race = findRaceFromFile(race_id)
+        print race
+        if race is None:
+            return "No race found.\n"
+        else:
+            return json.dumps(race)
+    except Exception as e:
+        return str(e)
 
 @app.route("/runs/<int:race_id>")
 def getRunsForRace(race_id):
     return "Placeholder"
+
+# Helper methods
+
+def getAndUpdateRaceId():
+    races_cnt_file = open(RACES_CNT_FILE, 'r+')
+    race_cnt = races_cnt_file.read()
+    if race_cnt is None or len(race_cnt) == 0:
+        race_id = 1
+    else:
+        race_id = int(race_cnt)
+        race_id += 1
+    race_cnt = str(race_id)
+    races_cnt_file.seek(0, 0)
+    races_cnt_file.write(race_cnt)
+    races_cnt_file.close()
+    return race_id
+
+def saveRaceToFile(race_id, race_name, start_date, end_date, activity_type):
+    races_file = open(RACES_FILE, 'a')
+    datum = "%s:%s,%s,%s,%s\n" % (race_id, race_name, start_date, end_date, activity_type)
+    races_file.write(datum)
+    races_file.close()
+
+def findRaceFromFile(race_id):
+    races_file = open(RACES_FILE, 'r')
+    for line in races_file:
+        line_arr = line.split(':')
+        if line_arr[0] == race_id:
+            result = dict()
+            result['race_id'] = line_arr[0]
+            attributes = line_arr[1]
+            attributes_arr = attributes.split(',')
+            result['race_name'] = attributes_arr[0]
+            result['start_date'] = attributes_arr[1]
+            result['end_date'] = attributes_arr[2]
+            result['activity_type'] = attributes_arr[3].rstrip('\n')
+            return result
+    return None
 
 class OAuth():
     CLIENT_ID = None
@@ -128,4 +165,7 @@ class OAuth():
     
 
 if __name__ == "__main__":
+    # If RESET is set, then delete and create:
+    # - races_count.txt
+    # - races.txt
     app.run("0.0.0.0", port=8080)
