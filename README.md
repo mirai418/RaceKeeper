@@ -18,8 +18,8 @@ Response:
                     'race_id': <int>,
                     'username': <string>,
                     'members': [<string>, ...],
-                    'start_date': <string>,
-                    'end_date': <string>,
+                    'start_date': <string>, # yyyy-mm-dd
+                    'end_date': <string>, # yyyy-mm-dd
                     'race_name': <string>,
                     'activity_type': <string>, # Running, Swimming, Hiking
                 },

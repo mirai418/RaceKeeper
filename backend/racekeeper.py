@@ -4,7 +4,7 @@
 #
 
 from flask import Flask, redirect, request
-import requests, json
+import requests, json, logging
 
 app = Flask(__name__)
 
@@ -19,6 +19,7 @@ RACE_TO_MEMBER_FILE = 'race_to_member.txt' # Stores association between races an
 RACES_FILE = 'races.txt' # Stores data about races
 RACES_CNT_FILE = 'races_count.txt' # Counter for current number of races
 RUNS_DIR = 'runs/'
+LOG_FILE = '../log/backend.log'
 
 if TEST:
     ACCESS_TOKEN = open('sample_oauth').read()
@@ -224,4 +225,9 @@ if __name__ == "__main__":
     # If RESET is set, then delete and create:
     # - races_count.txt
     # - races.txt
+    werkzeug_logger = logging.getLogger('werkzeug')
+    log_file = logging.FileHandler(LOG_FILE)
+    log_file.setLevel(logging.DEBUG)
+    werkzeug_logger.addHandler(log_file)
+    app.logger.addHandler(log_file)
     app.run("0.0.0.0", port=8080)
