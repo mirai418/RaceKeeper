@@ -4,6 +4,11 @@ RaceKeeper by #ECEBROS
 Aggregates runs of #ECEBROS and creates a leader board in real time.
 
 ---
+
+##Host:
+
+`unix2.andrew.cmu.edu:8080`
+
 ##Endpoints:
 
 `/races` -- Returns all races
