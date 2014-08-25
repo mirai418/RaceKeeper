@@ -124,22 +124,34 @@ def getSpecificRace(race_id):
 
 @app.route("/runs/<race_id>")
 def getRunsForRace(race_id):
-    race = findRaceFromFile(race_id)
-    start_date = race['start_date']
-    end_date = race['end_date']
-    if race is None:
-        return "Race not found."
-    members = getMembersOfRace(race_id)
-    result = dict()
-    for member in members:
-        result['member'] = getActivities(member, start_date, end_date)
-    return json.loads(result)
+    try:
+        race = findRaceFromFile(race_id)
+        print race
+        start_date = race['start_date']
+        end_date = race['end_date']
+        activity_type = race['activity_type']
+        if race is None:
+            return "Race not found."
+        members = getMembersOfRace(race_id)
+        print members
+        result = dict()
+        for member in members:
+            result[member] = getActivities(member, start_date, end_date, activity_type)
+        print result
+        return json.dumps(result)
+    except Excepion as e:
+        return str(e)
 
-def getActivities(access_token, start_date, end_date):
+def getActivities(access_token, start_date, end_date, activity_type):
     global HOST_URL
     url = "%s/fitnessActivities?access_token=%s&pageSize=100&noEarlierThan=%s&noLaterThan=%s" % (HOST_URL, access_token, start_date, end_date)
     response = requests.get(url)
-    return response.json()['items']
+    activities = response.json()['items']
+    result = list()
+    for activity in activities:
+        if activity['type'] == activity_type:
+            result.append(activity)
+    return result
 
 # Helper methods
 
