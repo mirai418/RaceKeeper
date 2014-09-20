@@ -1,5 +1,13 @@
-<div class="racer">
+<div class="racer" ng-style="{'height': getHeight()}">
 
-  <runs ng-repeat="runs in races" runs="runs"></runs>
+  <runs ng-repeat="(user, runs) in races" user="user" runs="runs"></runs>
+
+  <div class="keys">
+    <div class="increment" ng-repeat="increment in increments" ng-style="{'width': incrementWidth}">
+      <div class="num">
+        {{getAxisMeasure(increment)}}
+      </div>
+    </div>
+  </div>
 
 </div>

@@ -5,7 +5,7 @@ angular.module("raceKeeperApp")
   console.log("HomeCtrl");
 
   var fakeRaces = {
-    makagawa: [
+    ican: [
       {
         distance: 3214,
         start_time: "2014-05-01",
@@ -67,7 +67,7 @@ angular.module("raceKeeperApp")
         end_time: "2014-05-27"
       },
     ],
-    icanberk: [
+    makagawa: [
       {
         distance: 5532,
         start_time: "2014-05-01",

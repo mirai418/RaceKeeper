@@ -29,6 +29,14 @@ angular.module("raceKeeperApp")
       var isVerticallyCenter = (classList.indexOf("vertically-center") != -1);
       var isHorizontallyCenter = (classList.indexOf("horizontally-center") != -1);
 
+      var updateV = function (height) {
+        elem.css("margin-top", (height / -2).toString() + "px");
+      }
+
+      var updateH = function (width) {
+        elem.css("margin-left", (width / -2).toString() + "px");
+      }
+
       elem.bind("load", function (event) {
         if (isVerticallyCenter) {
           updateV(elem[0].offsetHeight);
@@ -46,6 +54,7 @@ angular.module("raceKeeperApp")
             updateV(newValue);
           }
         })
+        updateV(elem[0].offsetHeight);
       }
 
       if (isHorizontallyCenter) {
@@ -56,18 +65,8 @@ angular.module("raceKeeperApp")
             updateH(newValue);
           }
         })
+        updateH(elem[0].offsetWidth);
       }
-
-      var updateV = function (height) {
-        elem.css("margin-top", (height / -2).toString() + "px");
-      }
-      updateV(elem[0].offsetHeight);
-
-      var updateH = function (width) {
-        elem.css("margin-left", (width / -2).toString() + "px");
-      }
-      updateH(elem[0].offsetWidth);
-
 
     }
   };
@@ -107,18 +106,24 @@ angular.module("raceKeeperApp")
         return width / totalDistance;
       }
 
+      scope.height = body[0].offsetHeight - 100;
+      scope.getHeight = function () {
+        return scope.height.toString() + "px";
+      }
+
       scope.$watch(function () {
         return scope.races;
       }, function (newValue, oldValue) {
         if (angular.isDefined(newValue)) {
-          var longestDistance = calcTotal(newValue);
-          var width = body[0].offsetWidth - 20;
-          $rootScope.pxMeterRatio = getPixelMeterRatio(calcTotal(newValue), width);
-          $rootScope.barHeight = (body[0].offsetHeight - 80) / Object.keys(scope.races).length;
-          console.log($rootScope.barHeight);
+          scope.longestDistance = calcTotal(newValue);
+          var width = body[0].offsetWidth - 40;
+          $rootScope.pxMeterRatio = getPixelMeterRatio(scope.longestDistance, width);
+          $rootScope.barHeight = (scope.height - 30) / Object.keys(scope.races).length;
+
+          scope.increments = [1,2,3,4,5];
+          scope.incrementWidth = (scope.longestDistance * $rootScope.pxMeterRatio / 5).toString() + "px";
         }
       })
-
 
       var baseDate = new Date(2014, 4, 1);
       $rootScope.now = baseDate;
@@ -126,6 +131,10 @@ angular.module("raceKeeperApp")
       $interval(function () {
         $rootScope.now.setDate($rootScope.now.getDate() + 1);
       }, 100, 30);
+
+      scope.getAxisMeasure = function (increment) {
+        return (Math.round(scope.longestDistance / 5 * increment) / 1000).toString() + "km";
+      }
 
     }
   };
@@ -136,12 +145,17 @@ angular.module("raceKeeperApp")
     restrict: "E",
     templateUrl: "html/runs.html",
     scope: {
+      user: "=",
       runs: "=",
     },
     link: function (scope, iElem, iAttrs, controller) {
 
+      scope.color = randomColor({
+       luminosity: 'light'
+      });
+
       scope.getHeight = function () {
-        return ($rootScope.barHeight - 20).toString() + "px";
+        return ($rootScope.barHeight - 10).toString() + "px";
       }
 
     }
@@ -154,6 +168,7 @@ angular.module("raceKeeperApp")
     templateUrl: "html/run.html",
     scope: {
       run: "=",
+      color: "@"
     },
     link: function (scope, iElem, iAttrs, controller) {
 

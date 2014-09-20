@@ -1,3 +1,4 @@
+
 String.prototype.rToJ = function () {
   var components = this.split("-");
   if (components.length != 3) {

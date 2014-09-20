@@ -1,5 +1,9 @@
 <div class="runs" ng-style="{'height': getHeight()}">
 
-  <run ng-repeat="run in runs" run="run"></run>
+  <run ng-repeat="run in runs" run="run" color="{{color}}"></run>
+
+  <div class="username abs-center vertically-center">
+    {{user}}
+  </div>
 
 </div>
