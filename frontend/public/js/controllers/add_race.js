@@ -49,13 +49,9 @@ angular.module("raceKeeperApp")
     var url = "http://unix2.andrew.cmu.edu:8080/addRaceGroup/";
     $http({
       url: url,
-      data: params,
+      params: params,
       method: "POST",
-      headers: {
-        "Accept": "*/*"
-      }
     })
-    // $http.post(url, params)
     .then(function (response) {
     $scope.loading = false;
       console.log("success");

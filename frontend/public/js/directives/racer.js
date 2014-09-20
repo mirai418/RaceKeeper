@@ -74,7 +74,7 @@ angular.module("raceKeeperApp")
 }])
 
 
-.directive("racer", [ "$document", function ($document){
+.directive("racer", [ "$document", "$rootScope", "$interval", function ($document, $rootScope, $interval){
   // Runs during compile
   return {
     restrict: "E",
@@ -84,36 +84,88 @@ angular.module("raceKeeperApp")
     },
     link: function(scope, iElem, iAttrs, controller) {
 
-      console.log(scope.races);
-
       var body = $document.find("body").eq(0);
+
+      var calcTotal = function (races) {
+
+        var totals = {};
+        var highestTotal = 0;
+        angular.forEach(races, function (value, key) {
+          totals[key] = 0;
+          for (var i = 0; i < value.length; i++) {
+            totals[key] += value[i].distance;
+          }
+          if (totals[key] > highestTotal) {
+            highestTotal = totals[key];
+          }
+        });
+
+        return highestTotal;
+      }
+
+      var getPixelMeterRatio = function (totalDistance, width) {
+        return width / totalDistance;
+      }
+
+      scope.$watch(function () {
+        return scope.races;
+      }, function (newValue, oldValue) {
+        if (angular.isDefined(newValue)) {
+          var longestDistance = calcTotal(newValue);
+          var width = body[0].offsetWidth - 20;
+          $rootScope.pxMeterRatio = getPixelMeterRatio(calcTotal(newValue), width);
+          $rootScope.barHeight = (body[0].offsetHeight - 80) / Object.keys(scope.races).length;
+          console.log($rootScope.barHeight);
+        }
+      })
+
+
+      var baseDate = new Date(2014, 4, 1);
+      $rootScope.now = baseDate;
+
+      $interval(function () {
+        $rootScope.now.setDate($rootScope.now.getDate() + 1);
+      }, 100, 30);
 
     }
   };
 }])
 
-.directive("runs", [ function () {
+.directive("runs", [ "$rootScope", function ($rootScope) {
   return {
     restrict: "E",
     templateUrl: "html/runs.html",
     scope: {
-      runs: "="
+      runs: "=",
     },
     link: function (scope, iElem, iAttrs, controller) {
-      console.log('runs');
+
+      scope.getHeight = function () {
+        return ($rootScope.barHeight - 20).toString() + "px";
+      }
+
     }
   }
 }])
 
-.directive("run", [ function () {
+.directive("run", [ "$rootScope", function ($rootScope) {
   return {
     restrict: "E",
     templateUrl: "html/run.html",
     scope: {
-      distance: "="
+      run: "=",
     },
     link: function (scope, iElem, iAttrs, controller) {
-      console.log('run');
+
+      scope.getWidth = function () {
+        return ($rootScope.pxMeterRatio * scope.run.distance).toString() + "px";
+      }
+
+      scope.shouldShow = function () {
+        var runDate = scope.run.start_time.rToJ();
+        return (runDate < $rootScope.now);
+      }
+
     }
   }
 }])

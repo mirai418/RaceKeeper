@@ -1,6 +1,6 @@
-Date.prototype.rToJ = function (rTime) {
-  var components = rTime.split("-");
-  if (components.length != 2) {
+String.prototype.rToJ = function () {
+  var components = this.split("-");
+  if (components.length != 3) {
     throw "given RunKeeper time is in the wrong format. Needs to be yyyy-mm-dd"
   }
   var year = parseInt(components[0]);
@@ -15,7 +15,7 @@ angular.module('raceKeeperApp', ["ngRoute"])
 
   $locationProvider.html5Mode(true);
   // $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
-  // $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+  $httpProvider.defaults.headers.post["Content-Type"] = "application/json";
   // console.log($httpProvider.defaults.headers);
 
   $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://unix2.andrew.cmu.edu:8080/**', 'http://unix2.andrew.cmu.edu:8080/**']);
