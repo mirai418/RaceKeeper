@@ -40,7 +40,7 @@ def raceKeeperAuth():
         return redirect(url, code=302)
     except Exception as e:
         print e
-        return "NAY\n" + str(e)
+        return "NAY\n" + str(e), 404
 
 @app.route("/addMemberToRaceGroup/", methods=['POST'])
 def addMemberToRaceGroup():
@@ -55,9 +55,9 @@ def addMemberToRaceGroup():
             race_to_member_file.close()
             return "Added member %s to race %s" % (member_id, race_id)
         else:
-            return "Must send POST\n"
+            return "Must send POST\n", 404
     except Exception as e:
-        return str(e)
+        return str(e), 404
         
 @app.route("/addRaceGroup/", methods=['POST'])
 def addRaceGroup():
@@ -73,9 +73,9 @@ def addRaceGroup():
             saveRaceToFile(str(race_id), race_name, start_date, end_date, activity_type)
             return str(race_id)
         else:
-            return "Must send POST\n"
+            return "Must send POST\n", 404
     except Exception as e:
-        return str(e)
+        return str(e), 404
 
 @app.route("/getToken")
 def getToken():
@@ -95,9 +95,9 @@ def getToken():
         f = open(OAUTH_FILE, 'w')
         f.write(ACCESS_TOKEN)
         f.close()
-        return "Done " + resp.text
+        return "Done " + resp.text, 404
     except Exception as e:
-        return str(e)
+        return str(e), 404
 
 @app.route("/races/")
 def getAllRaces():
@@ -108,7 +108,7 @@ def getAllRaces():
         else:
             return json.dumps(race)
     except Exception as e:
-        return str(e)
+        return str(e), 404
 
 @app.route("/races/<race_id>")
 def getSpecificRace(race_id):
@@ -116,11 +116,11 @@ def getSpecificRace(race_id):
         race = findRaceFromFile(race_id)
         print race
         if race is None:
-            return "No race found.\n"
+            return "No race found.\n", 404
         else:
             return json.dumps(race)
     except Exception as e:
-        return str(e)
+        return str(e), 404
 
 @app.route("/runs/<race_id>")
 def getRunsForRace(race_id):
@@ -131,7 +131,7 @@ def getRunsForRace(race_id):
         end_date = race['end_date']
         activity_type = race['activity_type']
         if race is None:
-            return "Race not found."
+            return "Race not found.", 404
         members = getMembersOfRace(race_id)
         print members
         result = dict()
@@ -140,7 +140,9 @@ def getRunsForRace(race_id):
         print result
         return json.dumps(result)
     except Excepion as e:
-        return str(e)
+        return str(e), 404
+
+# Helper methods
 
 def getActivities(access_token, start_date, end_date, activity_type):
     global HOST_URL
@@ -152,8 +154,6 @@ def getActivities(access_token, start_date, end_date, activity_type):
         if activity['type'] == activity_type:
             result.append(activity)
     return result
-
-# Helper methods
 
 def getMembersOfRace(race_id):
     result = list()
