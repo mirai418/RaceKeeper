@@ -1,0 +1,325 @@
+h2 {
+  font-weight: 300;
+}
+
+/*-------------------------------------------------------------*/
+/* INPUT TEXT */
+
+input{
+  display: inline-block;
+}
+
+input[type="text"], input[type="email"], input[type="password"],
+input[type="tel"], input[type="url"], input[type="search"],
+textarea, .tokenizer{
+  height: 22px;
+  width: 137px;
+  font-size: 14px;
+  background-color: #fafafa;
+  border: 1px solid #bbb;
+  padding: 0px 6px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+textarea{
+  min-height: 160px;
+  resize: none;
+  padding: 6px;
+}
+
+textarea:hover, input[type="text"]:hover, input[type="email"]:hover,
+input[type="password"]:hover, input[type="tel"]:hover,
+input[type="url"]:hover, input[type="search"]:hover {
+  border-color: #999;
+}
+
+textarea:focus, input[type="text"]:focus, input[type="email"]:focus,
+input[type="password"]:focus, input[type="tel"]:focus,
+input[type="url"]:focus, input[type="search"]:focus {
+  outline: none;
+  border-color: #6C8CD5;
+  background-color: #f8f8f8;
+}
+
+input[class~="error-true"]{
+  border-color: #F00000;
+}
+
+input.wide {
+  width: 282px;
+}
+
+/*-------------------------------------------------------------*/
+/* SELECT */
+
+select{
+  height: 21px;
+  width: 138px;
+  font-size: 13px;
+  background-color: #fafafa;
+  border: 1px solid #bbb;
+  padding: 0px 6px;
+  -webkit-border-radius: 1px;
+  -moz-border-radius: 1px;
+  border-radius: 1px;
+  font-weight: 400;
+  line-height: 17px;
+}
+
+select:hover{
+  border-color: #999;
+}
+
+select:focus{
+  outline: none;
+  border-color: #6C8CD5;
+  background-color: #f8f8f8;
+}
+
+/*-------------------------------------------------------------*/
+/* DEFINITION LIST */
+
+dl, dd, dt {
+  line-height: 1;
+}
+
+dd, dt{
+  display: block;
+  float: left;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+dd{
+  clear: both;
+  width: 120px;
+  font-weight: 300;
+}
+
+dt{
+  width: 470px;
+  font-weight: 400;
+}
+
+dl.right-aligned dd{
+  text-align: right;
+  margin-right: 10px;
+  line-height: 20px;
+}
+
+dl.more-info dt{
+  width: 450px;
+}
+
+dl.wide dd {
+  width: 100px;
+}
+
+dl.wide dt {
+  width: 280px;
+}
+
+
+/*-------------------------------------------------------------*/
+/* CALENDAR CSS */
+
+.calendar-border{
+  border: 1px solid #a0a0a0;
+  background-color: white;
+}
+
+#calendar {
+  font-size: 13px;
+}
+
+#calendar .calendar-elem{
+  width: 40px;
+  height: 22px;
+  text-align: center;
+  line-height: 22px;
+}
+
+#calendar .quo{
+  display: inline;
+  font-size: 20px;
+  position: relative;
+  top: -2px;
+}
+
+#calendar .rotate-quo{
+  font-size: 17px;
+  position: absolute;
+  left: 17px;
+  top: 3px;
+  height: 10px;
+  width: 10px;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+  color: #555;
+  cursor: pointer;
+}
+
+#calendar .rotate-quo:active{
+  position: absolute;
+  top: 4px;
+}
+
+
+#calendar .head-elem{
+  background-color: #f8f8f8;
+}
+
+#calendar button{
+  border: none;
+  min-width: 0px;
+  margin: 0px;
+  background-image: none;
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+}
+
+#calendar button:focus{
+  outline: none;
+  top: 1px;
+}
+
+#calendar button:hover{
+  background-color: #e0e0e0;
+  opacity: 0.8;
+}
+
+#calendar button:disabled{
+  background-color: #f0f0f0;
+  opacity: 0.4;
+}
+
+#calendar .title{
+  width: 200px;
+  font-size: 16px;
+}
+
+#calendar .is-selected-true{
+  background-color: #e8e8e8;
+}
+
+#calendar thead{
+  border-bottom: 1px solid #a0a0a0;
+  background-color: #f8f8f8;
+}
+
+#calendar td{
+  position: relative;
+  min-width: 8px;
+  text-align: center;
+}
+
+#calendar td .meridian{
+  padding: 0px 2px;
+  line-height: 20px;
+  background-color: transparent;
+  margin: 0px 5px;
+}
+
+#calendar .linky:hover{
+  background-color: #e0e0e0;
+}
+
+#calendar th{
+  font-weight: 300;
+  text-align: center;
+}
+
+#calendar input[type="text"]{
+  width: 32px;
+  margin-left: 0px;
+}
+
+
+.spinny-wrapper {
+  color: black;
+  position: relative;
+}
+
+.spinny-inline {
+ display: inline-block;
+ font-size: 14px;
+ margin: auto 10px;
+}
+
+.spinny-block {
+  display: block;
+  margin: 20px auto;
+}
+
+.spinny-text {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.spinny-center {
+  text-align: center;
+}
+
+.spinny {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  text-align: center;
+  line-height: 14px;
+  font-size: 14px;
+
+  animation-name:spinny-keyframe;
+  animation-duration:0.5s;
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+  animation-play-state:running;
+
+  -webkit-animation-name:spinny-keyframe;
+  -webkit-animation-duration:0.5s;
+  -webkit-animation-timing-function:linear;
+  -webkit-animation-iteration-count:infinite;
+  -webkit-animation-play-state:running;
+}
+
+@keyframes spinny-keyframe {
+  0% {
+    transform:rotate(0deg);
+    -ms-transform:rotate(0deg);
+    -webkit-transform:rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    transform:rotate(360deg);
+    -ms-transform:rotate(360deg);
+    -webkit-transform:rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spinny-keyframe {
+  0% {
+    transform:rotate(0deg);
+    -ms-transform:rotate(0deg);
+    -webkit-transform:rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    transform:rotate(360deg);
+    -ms-transform:rotate(360deg);
+    -webkit-transform:rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+  }
+}

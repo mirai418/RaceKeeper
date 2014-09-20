@@ -1,7 +1,8 @@
 angular.module("raceKeeperApp")
 
-.controller("AuthCtrl", [ "$scope", function ($scope) {
+.controller("AuthCtrl", [ "$scope", "$rootScope", function ($scope, $rootScope) {
 
-  console.log("AuthCtrl");
+  $scope.clientId = $rootScope.clientId;
+  $scope.htmlDomain = $rootScope.htmlDomain;
 
 }])

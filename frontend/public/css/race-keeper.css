@@ -15,7 +15,7 @@ html, body {
   overflow: auto;
 }
 
-.title {
+.racekeeper-title {
   height: 55px;
   margin-top: -8px;
   font-size: 50px;
@@ -36,4 +36,40 @@ html, body {
   top: 17px;
   font-size: 40px;
   right: -3px;
+}
+
+.main-container {
+  max-width: 100px;
+}
+
+.margin-auto {
+  margin: auto auto;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.abs-center {
+  position: absolute;
+}
+
+.abs-center.vertically-center{
+  top: 50%;
+}
+
+.abs-center.horizontally-center{
+  left: 50%;
+}
+
+.race {
+
+}
+
+.runs {
+
+}
+
+.run {
+  
 }

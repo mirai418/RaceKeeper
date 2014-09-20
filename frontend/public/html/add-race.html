@@ -1,0 +1,27 @@
+<div class="margin-auto">
+<h2 style="margin-bottom: 30px;">Create a New Race</h2>
+  <form class="add-race-form" name="addRaceForm" ng-submit="addRace(params)">
+
+    <dl class="clearfix right-aligned wide">
+      <dd>Race Name:</dd>
+      <dt><input type="text" ng-model="params.race_name" required autocomplete="off" class="wide"></dt>
+      <dd>Start Date:</dd>
+      <dt><datepicker ng-model="params.start_date_json"></datepicker></dt>
+      <dd>End Date:</dd>
+      <dt><datepicker ng-model="params.end_date_json"></datepicker></dt>
+      <dd>Race Type:</dd>
+      <dt><select ng-model="params.activity_type" ng-options="activityType for activityType in activityTypes"></select></dt>
+    </dl>
+
+    <dl class="clearfix right-aligned wide">
+      <dd> </dd>
+      <dt>
+        <input type="submit" value="Create!" class="btn btn-success">
+        <spinny ng-show="loading" include-text="Validating Data" inline="true" top-offset="0px"></spinny>
+        <span class="h-margin-medium success-color" ng-show="success"><small>Success! Moving to next step...</small></span>
+      </dt>
+    </dl>
+
+  </form>
+
+</div>
