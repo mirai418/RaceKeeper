@@ -10,7 +10,7 @@ angular.module("raceKeeperApp")
   showWeeks: false,
   startingDay: 0,
   yearRange: 2,
-  minDate: new Date()
+  minDate: new Date(1969)
 })
 
 .directive( 'datepicker', ['dateFilter', '$parse', 'datepickerConfig', function (dateFilter, $parse, datepickerConfig) {
@@ -187,10 +187,17 @@ angular.module("raceKeeperApp")
           scope.model = new Date(selected);
         }
       };
+
+      scope.shit = function () {
+        console.log('shit');
+        // scope.mode = "year";
+      }
+
       scope.move = function(step, $event) {
+        console.log('moveeee');
+        console.log(scope.mode);
         if (scope.mode === 'day') {
           var d = new Date(selected.getFullYear(), selected.getMonth() + step, selected.getDate(), 59, 59, 59, 999);
-          if (d >= minDate)
             selected.setMonth( selected.getMonth() + step );
         } else if (scope.mode === 'month') {
           selected.setFullYear( selected.getFullYear() + step );

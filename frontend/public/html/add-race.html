@@ -1,6 +1,6 @@
 <div class="margin-auto">
 <h2 style="margin-bottom: 30px;">Create a New Race</h2>
-  <form class="add-race-form" name="addRaceForm" ng-submit="addRace(params)">
+  <form class="add-race-form" name="addRaceForm">
 
     <dl class="clearfix right-aligned wide">
       <dd>Race Name:</dd>
@@ -16,7 +16,7 @@
     <dl class="clearfix right-aligned wide">
       <dd> </dd>
       <dt>
-        <input type="submit" value="Create!" class="btn btn-success">
+        <input type="submit" value="Create!" class="btn btn-success" ng-click="addRace(params)">
         <spinny ng-show="loading" include-text="Validating Data" inline="true" top-offset="0px"></spinny>
         <span class="h-margin-medium success-color" ng-show="success"><small>Success! Moving to next step...</small></span>
       </dt>

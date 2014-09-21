@@ -1,12 +1,17 @@
 
 String.prototype.rToJ = function () {
-  var components = this.split("-");
-  if (components.length != 3) {
-    throw "given RunKeeper time is in the wrong format. Needs to be yyyy-mm-dd"
+  var components = this.split(" ");
+  // if (components.length != 3) {
+  //   throw "given RunKeeper time is in the wrong format. Needs to be yyyy-mm-dd"
+  // }
+  var year = parseInt(components[3]);
+  if (components[2] == "Sep") {
+    var month = 8;
   }
-  var year = parseInt(components[0]);
-  var month = parseInt(components[1]) - 1;
-  var day = parseInt(components[2]);
+  if (components[2] == "Aug") {
+    var month = 7;
+  }
+  var day = parseInt(components[1]);
   return new Date(year, month, day);
 };
 
@@ -14,7 +19,7 @@ angular.module('raceKeeperApp', ["ngRoute"])
 
 .config(["$routeProvider", "$locationProvider", "$httpProvider", "$sceDelegateProvider", function ($routeProvider, $locationProvider, $httpProvider, $sceDelegateProvider) {
 
-  $locationProvider.html5Mode(true);
+  // $locationProvider.html5Mode(true);
   // $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
   $httpProvider.defaults.headers.post["Content-Type"] = "application/json";
   // console.log($httpProvider.defaults.headers);
@@ -28,8 +33,13 @@ angular.module('raceKeeperApp', ["ngRoute"])
     templateUrl: "html/home.html",
     controller: "HomeCtrl"
   })
+  .when("/race/:id", {
+    title: "RaceKeeper | Race",
+    templateUrl: "html/race.html",
+    controller: "ShitCtrl"
+  })
 
-  .when("/auth", {
+  .when("/auth/:id", {
     title: "RaceKeeper | Authorize",
     templateUrl: "html/auth.html",
     controller: "AuthCtrl"
@@ -43,6 +53,10 @@ angular.module('raceKeeperApp', ["ngRoute"])
     title: "RaceKeeper | Add a new Race",
     templateUrl: "html/add-race.html",
     controller: "AddRaceCtrl"
+  })
+  .otherwise({
+    title: "404",
+    template: "Not Found Bru"
   })
 
 

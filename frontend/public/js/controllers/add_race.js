@@ -1,8 +1,8 @@
 angular.module("raceKeeperApp")
 
-.controller("AddRaceCtrl", [ "$rootScope", "$scope", "$location", "$http", function ($rootScope, $scope, $location, $http) {
+.controller("AddRaceCtrl", [ "$rootScope", "$scope", "$location", "$http", "$timeout", function ($rootScope, $scope, $location, $http, $timeout) {
 
-  $scope.activityTypes = ["Running"];
+  $scope.activityTypes = ["Running", "Cycling"];
 
   $scope.params = {
     start_date: new Date(),
@@ -55,6 +55,9 @@ angular.module("raceKeeperApp")
     .then(function (response) {
     $scope.loading = false;
       console.log("success");
+      $timeout(function () {
+        $location.path("/");
+      }, 1000)
       console.log(response);
     }, function (reason) {
       $scope.loading = false;

@@ -1,9 +1,9 @@
 <table id="calendar" class="calendar-border">
   <thead>
     <tr>
-      <th><button class="calendar-elem head-elem" ng-click="move(-1, $event)"><div class="quo">&laquo;</div></button></th>
+      <th><button type="button" class="calendar-elem head-elem" ng-click="shit(); move(-1, $event)"><div class="quo">&laquo;</div></button></th>
       <th colspan="{{rows[0].length - 2 + showWeekNumbers}}"><div class="calendar-elem title">{{title}}</div></th>
-      <th><button class="calendar-elem head-elem" ng-click="move(1)"><div class="quo">&raquo;</div></button></th>
+      <th><button type="button" class="calendar-elem head-elem" ng-click="shit(); move(1)"><div class="quo">&raquo;</div></button></th>
     </tr>
 
     <tr ng-show="labels.length > 0">
@@ -15,7 +15,7 @@
     <tr ng-repeat="row in rows">
       <td ng-show="showWeekNumbers"><em>{{ getWeekNumber(row) }}</em></td>
       <td ng-repeat="dt in row">
-        <button class="calendar-elem is-selected-{{dt.isSelected}}" ng-click="select(dt.date)" ng-disabled="dt.disabled"><span ng-class="{muted: ! dt.isCurrent}">{{dt.label}}</span></button>
+        <button type="button" class="calendar-elem is-selected-{{dt.isSelected}}" ng-click="select(dt.date)" ng-disabled="dt.disabled"><span ng-class="{muted: ! dt.isCurrent}">{{dt.label}}</span></button>
       </td>
     </tr>
   </tbody>

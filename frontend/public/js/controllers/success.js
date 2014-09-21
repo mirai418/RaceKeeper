@@ -9,7 +9,7 @@ angular.module("raceKeeperApp")
     code: $scope.code,
     client_id: $rootScope.clientId,
     client_secret: $rootScope.clientSecret,
-    redirect_uri: $rootScope.domain + "/success"
+    redirect_uri: $rootScope.domain + "/#/success"
   }
 
   var createQueryString = function(obj) {
@@ -32,6 +32,20 @@ angular.module("raceKeeperApp")
   }).then(function (response) {
     console.log("success!");
     console.log(response);
+    var url = "http://unix2.andrew.cmu.edu:8080/addMemberToRaceGroup/";
+    $http({
+      url: url,
+      params: params,
+      method: "POST",
+    })
+    .then(function (response) {
+    $scope.loading = false;
+      console.log("success");
+      console.log(response);
+    }, function (reason) {
+      $scope.loading = false;
+      console.log("shit went down");
+    })
   }, function (reason) {
     console.log("fail.");
     console.log(reason);

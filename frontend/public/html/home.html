@@ -1,1 +1,20 @@
-<racer races="races"></racer>
+<div>
+  <table>
+    <tbody>
+      <tr class="race-list" ng-repeat="race in races">
+        <td><h2 class="race-title">{{race.race_name}}</h2></td>
+        <td><h2>{{race.activity_type}}</h2></td>
+        <td><h2>{{race.start_date}} - {{race.end_date}}</h2></td>
+        <td>
+          <a href="/#/auth/{{race.race_id}}" title=""><button type="button" class="btn btn-success race-button">Join Race</button></a>
+          <a ng-href="/#/race/{{race.race_id}}" title=""><button type="button" class="btn btn-info race-button">Start Race</button></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <a href="/#/add-race" title="">
+    <button type="button" class="btn btn-success create-race">Create a Race</button>
+  </a>
+
+</div>
