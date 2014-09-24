@@ -24,7 +24,7 @@ angular.module('raceKeeperApp', ["ngRoute"])
   $httpProvider.defaults.headers.post["Content-Type"] = "application/json";
   // console.log($httpProvider.defaults.headers);
 
-  $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://unix2.andrew.cmu.edu:8080/**', 'http://unix2.andrew.cmu.edu:8080/**']);
+  $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://104.131.120.21:8081/**', 'http://104.131.120.21:8081/**']);
 
   $routeProvider
 

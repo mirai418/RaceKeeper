@@ -46,7 +46,7 @@ angular.module("raceKeeperApp")
     params.end_date = convertDate(params.end_date_json);
 
     $scope.loading = true;
-    var url = "http://unix2.andrew.cmu.edu:8080/addRaceGroup/";
+    var url = "http://104.131.120.21:8081/addRaceGroup/";
     $http({
       url: url,
       params: params,

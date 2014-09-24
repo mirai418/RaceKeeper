@@ -32,7 +32,7 @@ angular.module("raceKeeperApp")
   }).then(function (response) {
     console.log("success!");
     console.log(response);
-    var url = "http://unix2.andrew.cmu.edu:8080/addMemberToRaceGroup/";
+    var url = "http://104.131.120.21:8081/addMemberToRaceGroup/";
     $http({
       url: url,
       params: params,

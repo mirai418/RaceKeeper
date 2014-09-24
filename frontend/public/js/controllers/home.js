@@ -2,7 +2,7 @@ angular.module("raceKeeperApp")
 
 .controller("HomeCtrl", [ "$scope", "$http", "$location", "$rootScope", function ($scope, $http, $location, $rootScope) {
 
-  $http.get("http://unix2.andrew.cmu.edu:8080/races").then(function (response) {
+  $http.get("http://104.131.120.21:8081/races").then(function (response) {
     console.log(response);
     $scope.races = response.data.races;
   }, function (reason) {
@@ -47,7 +47,7 @@ angular.module("raceKeeperApp")
         race_id: $rootScope.yolo,
         member_id: response.data.access_token
       };
-      var url = "http://unix2.andrew.cmu.edu:8080/addMemberToRaceGroup/";
+      var url = "http://104.131.120.21:8081/addMemberToRaceGroup/";
       $http({
         url: url,
         params: params,
