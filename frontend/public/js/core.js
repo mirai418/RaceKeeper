@@ -46,7 +46,7 @@ angular.module('raceKeeperApp', ["ngRoute", "ngCookies", "ngAnimate", "asui"])
   $httpProvider.defaults.headers.post["Content-Type"] = "application/json";
   // console.log($httpProvider.defaults.headers);
 
-  $sceDelegateProvider.resourceUrlWhitelist(['self', backendDomain ]);
+  $sceDelegateProvider.resourceUrlWhitelist(['self', "https://floating-reaches-7861.herokuapp.com/", backendDomain ]);
 
   var resolveRace = {
     race: [ "$route", "RaceService", function ($route, RaceService) {
