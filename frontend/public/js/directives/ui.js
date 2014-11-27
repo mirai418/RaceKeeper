@@ -188,14 +188,7 @@ angular.module("raceKeeperApp")
         }
       };
 
-      scope.shit = function () {
-        console.log('shit');
-        // scope.mode = "year";
-      }
-
       scope.move = function(step, $event) {
-        console.log('moveeee');
-        console.log(scope.mode);
         if (scope.mode === 'day') {
           var d = new Date(selected.getFullYear(), selected.getMonth() + step, selected.getDate(), 59, 59, 59, 999);
             selected.setMonth( selected.getMonth() + step );

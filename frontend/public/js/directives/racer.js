@@ -106,6 +106,28 @@ angular.module("raceKeeperApp")
         return width / totalDistance;
       }
 
+      var getInterval = function (races) {
+        var minDate = null;
+        var maxDate = new Date(0);
+        var firstDate, lastDate;
+        angular.forEach(races, function (value, key) {
+          if (value.length > 0) {
+            firstDate = value[value.length - 1].start_time.rToJ();
+            if (minDate === null || firstDate < minDate) {
+              minDate = firstDate;
+            }
+            lastDate = value[0].start_time.rToJ();
+            if (lastDate > maxDate) {
+              maxDate = lastDate;
+            }
+          }
+        })
+
+        var days = (maxDate - minDate) / (1000 * 60 * 60 * 24);
+
+        return [minDate, maxDate, days];
+      }
+
       scope.height = body[0].offsetHeight - 100;
       scope.getHeight = function () {
         return scope.height.toString() + "px";
@@ -115,6 +137,20 @@ angular.module("raceKeeperApp")
         return scope.races;
       }, function (newValue, oldValue) {
         if (angular.isDefined(newValue)) {
+
+          var i = 0;
+          angular.forEach(newValue, function (value, key) {
+            i += 1;
+          })
+
+          if (i < 1) {
+            console.log("you didn't run");
+            scope.noRuns = true;
+            return;
+          }
+
+          scope.noRuns = false;
+
           scope.longestDistance = calcTotal(newValue);
           var width = body[0].offsetWidth - 40;
           $rootScope.pxMeterRatio = getPixelMeterRatio(scope.longestDistance, width);
@@ -123,14 +159,15 @@ angular.module("raceKeeperApp")
           scope.increments = [1,2,3,4,5];
           scope.incrementWidth = (scope.longestDistance * $rootScope.pxMeterRatio / 5).toString() + "px";
         }
+
+        var interval = getInterval(newValue);
+        $rootScope.now = interval[0];
+
+        $interval(function () {
+          $rootScope.now.setDate($rootScope.now.getDate() + 1);
+        }, 320, interval[2] + 2);
+
       })
-
-      var baseDate = new Date(2014, 7, 1);
-      $rootScope.now = baseDate;
-
-      $interval(function () {
-        $rootScope.now.setDate($rootScope.now.getDate() + 1);
-      }, 200, 30);
 
       scope.getAxisMeasure = function (increment) {
         return (Math.round(scope.longestDistance / 5 * increment) / 1000).toString() + "km";
@@ -159,16 +196,14 @@ angular.module("raceKeeperApp")
       }
 
       scope.getUser = function (user) {
-        console.log(scope.user);
-        console.log(user);
         user = scope.user;
-        if (user == "6aab6d6c146b4035896bba1ba7481490") {
-          return "makagawa";
-        } else if (user == "c528f921ebb54f58862980877a752838") {
-          return "mp";
-        } else {
+        // if (user == "6aab6d6c146b4035896bba1ba7481490") {
+        //   return "makagawa";
+        // } else if (user == "c528f921ebb54f58862980877a752838") {
+        //   return "mp";
+        // } else {
           return user;
-        }
+        // }
       }
 
     }

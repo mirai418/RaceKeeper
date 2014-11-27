@@ -1,13 +1,24 @@
 angular.module("raceKeeperApp")
 
-.controller("HomeCtrl", [ "$scope", "$http", "$location", "$rootScope", function ($scope, $http, $location, $rootScope) {
+.controller("HomeCtrl", [ "$scope", "$http", "$location", "$rootScope", "RaceListService", "$cookies", "asuiModal",
+  function ($scope, $http, $location, $rootScope, RaceListService, $cookies, asuiModal) {
 
-  $http.get("http://104.131.120.21:8081/races").then(function (response) {
-    console.log(response);
-    $scope.races = response.data.races;
-  }, function (reason) {
-    console.log(reason);
+  $scope.$watch(function () {
+    return RaceListService.list;
+  }, function (newValue) {
+    $scope.races = newValue
   })
+
+  // epic hacking starts here.
+
+  $scope.clientId = $rootScope.clientId;
+  $scope.htmlDomain = $rootScope.htmlDomain;
+
+  $scope.authorize = function (id) {
+    $scope.redirectId = id;
+    $cookies.redirectId = id;
+    asuiModal.open("html/auth-modal.html", $scope);
+  }
 
   if (angular.isDefined($location.$$absUrl.split("?")[1])) {
     $scope.code = $location.$$absUrl.split("?")[1].split("=")[1].split("#")[0];
@@ -31,7 +42,6 @@ angular.module("raceKeeperApp")
     }
 
     var url = "https://runkeeper.com/apps/token?" + createQueryString(token);
-    console.log(url);
     $http({
       url: url,
       data: token,
@@ -40,14 +50,11 @@ angular.module("raceKeeperApp")
         "Content-Type": "application/x-www-form-urlencoded"
       }
     }).then(function (response) {
-      console.log("success!");
-      console.log(response);
-      console.log($rootScope.yolo);
       var params = {
-        race_id: $rootScope.yolo,
+        race_id: $cookies.redirectId,
         member_id: response.data.access_token
       };
-      var url = "http://104.131.120.21:8081/addMemberToRaceGroup/";
+      var url = backendDomain + "/addMemberToRaceGroup/";
       $http({
         url: url,
         params: params,
@@ -56,7 +63,6 @@ angular.module("raceKeeperApp")
       .then(function (response) {
       $scope.loading = false;
         console.log("success");
-        console.log(response);
       }, function (reason) {
         $scope.loading = false;
         console.log("shit went down");

@@ -1,10 +1,38 @@
 angular.module("raceKeeperApp")
 
-.controller("ShitCtrl", [ "$scope", "$timeout", "$http", function ($scope, $timeout, $http) {
+.factory('RaceService', [ '$http', '$q', function ($http, $q) {
 
-  console.log('ShitCtrl');
+  var res = {
+    races: [],
+  };
 
-  var fakeRaces = {
+  res.get = function (id) {
+
+    // resolve q when we have the data.
+    var q = $q.defer();
+
+    // fetch from cache.
+    if (angular.isDefined(res.races[id])) {
+      q.resolve(res.races[id]);
+      return q;
+    }
+
+    // get from server
+    else {
+      res.promise = $http.get(backendDomain + "/runs/" + id.toString());
+
+      res.promise.then(function (response) {
+        res.races[id] = response.data;
+        q.resolve(response.data);
+      }, function (reason) {
+        console.log(reason);
+      })
+    }
+
+    return q;
+  }
+
+  res.fakeRaces = {
     ican: [
       {
         distance: 3214,
@@ -141,7 +169,7 @@ angular.module("raceKeeperApp")
         end_time: "2014-05-30"
       },
     ],
-    skaggs: [
+    scconnor: [
       {
         distance: 2144,
         start_time: "2014-05-15",
@@ -175,16 +203,6 @@ angular.module("raceKeeperApp")
     ]
   };
 
-  $http.get("http://104.131.120.21:8081/runs/17").then(function (response) {
-    console.log(response);
-    $scope.races = response.data;
-    console.log($scope.races);
-  }, function (reason) {
-    console.log(reason);
-  })
-
-  // $timeout(function () {
-  //   $scope.races = fakeRaces;
-  // }, 10);
+  return res;
 
 }])

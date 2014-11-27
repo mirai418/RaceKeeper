@@ -2,7 +2,7 @@ angular.module("raceKeeperApp")
 
 .controller("AddRaceCtrl", [ "$rootScope", "$scope", "$location", "$http", "$timeout", function ($rootScope, $scope, $location, $http, $timeout) {
 
-  $scope.activityTypes = ["Running", "Cycling"];
+  $scope.activityTypes = ["Running", "Cycling", "Walking"];
 
   $scope.params = {
     start_date: new Date(),
@@ -46,7 +46,7 @@ angular.module("raceKeeperApp")
     params.end_date = convertDate(params.end_date_json);
 
     $scope.loading = true;
-    var url = "http://104.131.120.21:8081/addRaceGroup/";
+    var url = backendDomain + "/addRaceGroup/";
     $http({
       url: url,
       params: params,
