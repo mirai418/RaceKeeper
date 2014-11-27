@@ -10,6 +10,7 @@ angular.module("raceKeeperApp")
   })
 
   // epic hacking starts here.
+  $scope.crunching = false;
 
   $scope.clientId = $rootScope.clientId;
   $scope.htmlDomain = $rootScope.htmlDomain;
@@ -63,6 +64,8 @@ angular.module("raceKeeperApp")
       .then(function (response) {
       $scope.loading = false;
         console.log("success");
+        $scope.crunching = true;
+        $location.path("/race/" + $cookies.redirectId);
       }, function (reason) {
         $scope.loading = false;
         console.log("shit went down");

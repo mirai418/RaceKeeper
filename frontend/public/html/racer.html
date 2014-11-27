@@ -1,5 +1,9 @@
 <div class="racer" ng-style="{'height': getHeight()}">
 
+  <div class="currentDate" ng-show="getCurrentDate()">
+     Racing . . . {{getCurrentDate()}}
+  </div>
+
   <runs ng-repeat="(user, runs) in races" user="user" runs="runs"></runs>
 
   <div class="keys">

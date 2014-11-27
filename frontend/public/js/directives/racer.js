@@ -173,6 +173,16 @@ angular.module("raceKeeperApp")
         return (Math.round(scope.longestDistance / 5 * increment) / 1000).toString() + "km";
       }
 
+      scope.getCurrentDate = function () {
+        if (angular.isUndefined($rootScope.now)) {
+          return false;
+        }
+        // d = new Date(str);
+        m = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        return m[$rootScope.now.getMonth()] + " " + $rootScope.now.getDate() + " " + $rootScope.now.getFullYear();
+        // return $rootScope.now;
+      }
+
     }
   };
 }])
