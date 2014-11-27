@@ -4,7 +4,7 @@
      Racing . . . {{getCurrentDate()}}
   </div>
 
-  <runs ng-repeat="(user, runs) in races" user="user" runs="runs"></runs>
+  <runs ng-repeat="(user, runs) in races" user="user" runs="runs" done="done"></runs>
 
   <div class="keys">
     <div class="increment" ng-repeat="increment in increments" ng-style="{'width': incrementWidth}">

@@ -92,4 +92,13 @@ angular.module('raceKeeperApp', ["ngRoute", "ngCookies", "ngAnimate", "asui"])
     $rootScope.$apply();
   });
 
+
+  $rootScope.$on("$routeChangeStart", function (event, next, current) {
+    $rootScope.loading = true;
+  })
+
+  $rootScope.$on("$routeChangeSuccess", function (event, current, previous, rejection) {
+    $rootScope.loading = false;
+  });
+
 }])

@@ -38,11 +38,11 @@
 <body sizer>
   <div class="wrapper">
     <div class="racekeeper-title">
-      <i>RaceKeeper</i>
+      <a href="/#/" class="title-link"><i>RaceKeeper</i></a>
       <div class="arrow">></div>
     </div>
     <div class="credits">
-      <i>by the #ECEBROS</i>
+      <i ng-show="!loading">by the #ECEBROS</i> <asui-spinny ng-show="loading" include-text="Loading epic races, chill out." inline="true" top-offset="-2px"></asui-spinny>
     </div>
 
     <ng-view></ng-view>

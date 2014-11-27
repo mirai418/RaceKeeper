@@ -3,10 +3,15 @@ angular.module("raceKeeperApp")
 .controller("HomeCtrl", [ "$scope", "$http", "$location", "$rootScope", "RaceListService", "$cookies", "asuiModal",
   function ($scope, $http, $location, $rootScope, RaceListService, $cookies, asuiModal) {
 
+  $rootScope.loading = true;
   $scope.$watch(function () {
     return RaceListService.list;
   }, function (newValue) {
-    $scope.races = newValue
+    if (angular.isDefined(newValue)) {
+      $scope.races = newValue;
+      $rootScope.loading = false;
+    }
+
   })
 
   // epic hacking starts here.
@@ -63,8 +68,7 @@ angular.module("raceKeeperApp")
       })
       .then(function (response) {
       $scope.loading = false;
-        console.log("success");
-        $scope.crunching = true;
+        // console.log("success");
         $location.path("/race/" + $cookies.redirectId);
       }, function (reason) {
         $scope.loading = false;

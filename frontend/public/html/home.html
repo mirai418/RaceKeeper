@@ -1,19 +1,13 @@
 <div>
-  <table>
+  <table id="home-table">
     <tbody>
-      <tr ng-show="!races">
-        <td><h1><asui-spinny include-text="Loading" inline="true"></asui-spinny></h1></td>
-      </tr>
-      <tr ng-show="crunching">
-        <td><h1><asui-spinny include-text="You good! Starting your race one sec" inline="true"></asui-spinny></h1></td>
-      </tr>
       <tr class="race-list" ng-repeat="race in races">
         <td><h2><em>{{race.race_name}}</em></h2></td>
         <td><h2>{{race.activity_type}}</h2></td>
         <td><h2>{{race.start_date}} - {{race.end_date}}</h2></td>
         <td>
          <a ng-click="authorize(race.race_id)" title=""><button type="button" class="btn btn-success race-button">Join Race</button></a>
-         <a ng-href="/#/race/{{race.race_id}}" title=""><button type="button" class="btn btn-info race-button">Start Race</button></a>
+         <a ng-href="/#/race/{{race.race_id}}" title=""><button type="button" ng-click="crunching = true;" class="btn btn-info race-button">Start Race</button></a>
         </td>
       </tr>
     </tbody>

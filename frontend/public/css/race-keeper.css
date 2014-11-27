@@ -27,6 +27,16 @@ h1 small {
   padding-left: 5px;
 }
 
+.title-link {
+  text-decoration: none;
+  color: black;
+}
+
+.title-link:hover {
+  text-decoration: none;
+  color: #777;
+}
+
 .credits {
   font-size: 22px;
   margin-top: -8px;
@@ -107,6 +117,12 @@ h1 small {
   margin-left: 10px;
 }
 
+.runs .distance {
+  position: absolute;
+  right: 30px;
+  z-index: 10;
+}
+
 .run {
   display: inline-block;
   height: 100%;
@@ -145,4 +161,35 @@ h1 small {
 
 tr.race-list td {
   padding: 0px 10px;
+}
+
+em {
+  font-weight: 400;
+}
+
+@media (max-width: 600px) {
+
+  h2 {
+    margin: 5px;
+    font-style: 16px;
+  }
+
+  dl {
+    margin-left: 10px;
+  }
+
+  dd, dt, #home-table td {
+    display: block;
+  }
+/*
+  td:last-child {
+    padding-bottom: 20px;
+  }*/
+
+  #home-table tr {
+    display: block;
+    border-bottom: 1px solid #d0d0d0;
+    padding: 20px 0px;
+  }
+
 }

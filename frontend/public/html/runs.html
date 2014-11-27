@@ -3,7 +3,11 @@
   <run ng-repeat="run in runs" run="run" color="{{color}}"></run>
 
   <div class="username abs-center vertically-center">
-    {{getUser()}}
+    {{user}}
+  </div>
+
+  <div ng-show="done" class="distance abs-center vertically-center">
+    {{getTotal(runs.total)}}km
   </div>
 
 </div>
